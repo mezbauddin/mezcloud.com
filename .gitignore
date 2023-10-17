@@ -1,0 +1,77 @@
+# Ignore compiled Python bytecode
+__pycache__/
+*.pyc
+
+# Ignore virtual environment
+venv/
+env/
+
+# Ignore static files
+/static/
+
+# Ignore media files
+/media/
+
+# Ignore database files
+db.sqlite3
+
+# Ignore environment-specific settings
+.env
+
+# Ignore IDE and editor files
+.idea/
+.vscode/
+
+# Ignore local configuration
+config.yml
+
+# Ignore logs
+logs/
+
+# Ignore cache files
+.cache/
+
+# Ignore package lock files
+package-lock.json
+yarn.lock
+
+# Ignore secret keys and sensitive information
+secrets.py
+credentials.json
+
+# Ignore generated files and build artifacts
+/dist/
+/build/
+
+# Ignore miscellaneous files
+*.bak
+*.swp
+*.tmp
+.DS_Store
+
+/data/
+/certbot/
+
+# Ignore Terraform state files
+**/*.tfstate
+**/*.tfstate.*
+
+# Ignore .terraform directory
+.terraform/
+
+# Ignore .tfvars files that might contain sensitive information
+*.auto.tfvars
+*.auto.tfvars.json
+*.tfvars
+*.tfvars.json
+
+# Ignore crash log files
+crash.log
+
+# Ignore .terraformrc, terraform.rc, terraform.d, terraformrc.json, terraform.rc.json files
+terraform.rc
+terraform.rc.json
+.terraformrc
+terraform.d
+terraformrc.json
+terraform-provider-gcp*

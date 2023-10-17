@@ -1,0 +1,71 @@
+name: mezbauddin.com CI/CD Build, Push, Deploy, and Provision Infrastructure
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  IMAGE_NAME: mezbauddin.com
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  SERVER_HOST: ${{ secrets.SERVER_HOST }}
+  SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
+  TFE_TOKEN: ${{ secrets.TF_CLOUD_TOKEN }} # Corrected variable name
+
+jobs:
+  build-push-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ env.DOCKER_USERNAME }}
+          password: ${{ env.DOCKER_PASSWORD }}
+
+      - name: Build Docker image
+        run: docker build -t ${{ env.IMAGE_NAME }} .
+
+      - name: Tag Docker image
+        run: docker tag ${{ env.IMAGE_NAME }} ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+
+      - name: Push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+
+      - name: Configure Terraform Cloud
+        run: |
+          # Set up Terraform Cloud authentication
+          echo 'credentials "app.terraform.io" {
+            token = "${{ env.TFE_TOKEN }}" # Use the correct variable name
+          }' > ~/.terraformrc
+
+      - name: Provision Infrastructure with Terraform
+        run: |
+          cd infrastructure/terraform
+          terraform init
+          terraform apply -replace=null_resource.run_ansible -auto-approve
+
+      - name: Deploy to Server
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key
+          chmod 600 ssh_key
+          ssh -o StrictHostKeyChecking=no -i ssh_key -l ${{ env.SERVER_USERNAME }} ${{ env.SERVER_HOST }} '
+          cd /home/houddinii/mezbauddin.com-MezCloud && \
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            COMPOSE_FILE=./docker-compose.prod.yml
+          else
+            COMPOSE_FILE=./docker-compose.staging.yml
+          fi && \
+          echo "Using Docker Compose file: $COMPOSE_FILE" && \
+          docker-compose -f $COMPOSE_FILE down || true && \
+          docker-compose -f $COMPOSE_FILE pull && \
+          docker-compose -f $COMPOSE_FILE up -d
+          '
+        shell: /usr/bin/bash -e {0}

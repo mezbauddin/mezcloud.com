@@ -1,0 +1,149 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    container_name: postgres-db
+    environment:
+      - POSTGRES_DB=mezproject_db
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=R1ng0B1ng0!
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - mez_network
+
+  web:
+    image: mezbauddin/mezbauddin.com:latest
+    container_name: django-web
+    restart: on-failure
+    volumes:
+      - static_volume:/app/static
+    depends_on:
+      - db
+    command: >
+      bash -c "poetry run python manage.py makemigrations home --noinput &&
+               poetry run python manage.py makemigrations staging --noinput &&
+               poetry run python manage.py makemigrations blog --noinput &&
+               poetry run python manage.py migrate --noinput &&
+               poetry run gunicorn MezProject.wsgi:application --bind 0.0.0.0:8000"
+
+  # web:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 8000:8000
+  #   depends_on:
+  #     - db
+  #   command: bash -c "python manage.py makemigrations home --noinput && 
+  #                     python manage.py makemigrations staging --noinput && 
+  #                     python manage.py makemigrations blog --noinput &&
+  #                     python manage.py migrate --noinput && 
+  #                     gunicorn MezProject.wsgi:application --bind 0.0.0.0:8000"
+
+    networks:
+      - mez_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.web.rule=Host(`mezbauddin.com`)"
+      - "traefik.http.services.web.loadbalancer.server.port=8000"
+      - "traefik.http.routers.web.tls.certresolver=production"
+
+  traefik:
+    image: "traefik"
+    container_name: "traefik"
+    command:
+      - "--api.insecure=true"
+      # - "--log.level=DEBUG" # Log level of Traefik need to coment it out in production.
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.metrics.address=:9091"
+      - "--metrics.prometheus=true"
+      - "--metrics.prometheus.entryPoint=metrics"
+      
+      # Switch between production and staging configurations by commenting/uncommenting the appropriate lines
+      # in the traefik service command section.
+
+      # Production configuration
+      - "--certificatesresolvers.production.acme.email=certs@mezbauddin.com"
+      - "--certificatesresolvers.production.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.production.acme.httpchallenge=true"
+      - "--certificatesresolvers.production.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.production.acme.caServer=https://acme-v02.api.letsencrypt.org/directory"
+
+      # Staging configuration
+      # - "--certificatesresolvers.staging.acme.email=certs@mezbauddin.com"
+      # - "--certificatesresolvers.staging.acme.storage=/letsencrypt/acme-staging.json"
+      # - "--certificatesresolvers.staging.acme.httpchallenge=true"
+      # - "--certificatesresolvers.staging.acme.httpchallenge.entrypoint=web"
+      # - "--certificatesresolvers.staging.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory"
+
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "letsencrypt:/letsencrypt"
+    networks:
+      - mez_network
+    labels:
+      # Redirect all HTTP traffic to HTTPS
+      - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
+      - "traefik.http.routers.http-catchall.entrypoints=web"
+      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+
+      # Subdomain for Traefik dashboard
+      - "traefik.enable=true" # Enable traefik for Traefik dashboard
+      - "traefik.http.routers.traefik.rule=Host(`traefik.mezbauddin.com`)"
+      - "traefik.http.routers.traefik.entrypoints=websecure" # Redirect to HTTPS
+      - "traefik.http.routers.traefik.tls.certresolver=production" # Use the production resolver
+      - "traefik.http.services.traefik.loadbalancer.server.port=8080" # Traefik dashboard port to be exposed via loadbalancer 
+      # Basic auth for Traefik dashboard
+      - 'traefik.http.routers.traefik.middlewares=auth' # htpasswd -nbB mezbauddin Gonzo198@
+      - 'traefik.http.middlewares.auth.basicauth.users=mezbauddin:$$2y$$05$$JEP6OUUbqIXlqnffDZCjKeYgrN6eNLvUXkqmrlHy8O9bEXebulSz2'
+      
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - prometheus_data:/prometheus
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - mez_network
+    labels:
+      - "traefik.enable=true" # Enable traefik for prometheus
+      - "traefik.http.routers.prometheus.rule=Host(`prometheus.mezbauddin.com`)"
+      - "traefik.http.routers.prometheus.tls.certresolver=production" 
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3001:3001"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - mez_network
+    labels:
+      - "traefik.enable=true" # Enable traefik for grafana
+      - "traefik.http.routers.grafana.rule=Host(`grafana.mezbauddin.com`)"
+      - "traefik.http.routers.grafana.tls.certresolver=production"
+
+volumes:
+  postgres_data:
+  static_volume:
+  letsencrypt:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  mez_network:

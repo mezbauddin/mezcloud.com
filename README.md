@@ -117,4 +117,3 @@ Installed dJango, waigtail, but currently only using it to load static pages, no
 
 
 # ~
-# mezcloud.com

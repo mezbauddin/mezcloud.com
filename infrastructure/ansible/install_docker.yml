@@ -1,0 +1,33 @@
+---
+- hosts: mezcloud # This matches the group name in the generated inventory file
+  remote_user: "{{ansible_user}}"  # This matches the user name in the generated inventory file
+  become: yes  # using sudo
+
+  tasks:
+    - name: Update apt package cache
+      apt:
+        update_cache: yes
+
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Install Docker Compose
+      apt:
+        name: docker-compose
+        state: present
+
+    - name: Start Docker service
+      systemd:
+        name: docker
+        enabled: yes
+        state: started
+
+    - name: Clone Git repository with a GitHub Personal Access Token
+      git:
+        repo: https://github.com/mezbauddin/mezbauddin.com-MezCloud.git
+        dest: /
+        update: yes
+        accept_hostkey: yes  # This is for HTTPS authentication
+        access_token: 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  # Replace with your token

@@ -1,0 +1,291 @@
+{% extends 'staging/base.html' %}
+<!-- loading from the static folder? -->
+{% load static %}	
+{% block content %}
+	<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+		<symbol id="check" viewBox="0 0 16 16">
+			<title>Check</title>
+			<path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"></path>
+		</symbol>
+	</svg>
+	<div class="container-fluid py-md-3 px-md-6 py-sm-5 px-sm-5">
+		<header>
+			<div class="flex-column flex-md-row align-items-center pb-0 mb-4 border-bottom-cs">
+				<nav class="navbar navbar-expand-lg bg-white">
+					<div class="container-fluid">
+						<a href="£" class="navbar-brand d-flex align-items-center text-dark text-decoration-none">
+							<svg width="150" height="120" viewBox="0 0 186 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M46.5364 76.0235C46.5342 76.1776 46.499 76.3294 46.4332 76.4687C46.3675 76.6081 46.2726 76.7318 46.1551 76.8315C45.9256 77.0462 45.6251 77.169 45.3109 77.1764C45.1323 77.185 44.9546 77.1469 44.7954 77.0656C44.6361 76.9844 44.5009 76.863 44.403 76.7134L13.4279 33.2647V75.6331C13.4353 75.7931 13.4056 75.9525 13.341 76.099C13.2765 76.2455 13.1788 76.3751 13.0556 76.4774C12.8304 76.6771 12.5396 76.787 12.2386 76.7861C11.9286 76.784 11.6318 76.6601 11.4125 76.4411C11.2962 76.3409 11.2027 76.217 11.1385 76.0776C11.0743 75.9382 11.0408 75.7866 11.0403 75.6331V29.7151C11.0403 29.3601 11.1445 29.0129 11.3398 28.7164C11.4342 28.5635 11.5688 28.4394 11.7289 28.3577C11.889 28.2761 12.0684 28.24 12.2477 28.2535C12.4347 28.2447 12.6202 28.2908 12.7814 28.3859C12.9427 28.4811 13.0727 28.6212 13.1555 28.7891C13.5186 29.3065 14.2721 30.3505 15.4342 31.912C16.5962 33.4735 17.9761 35.389 19.592 37.6495C21.208 39.91 23.0055 42.4065 24.9845 45.1209C26.9636 47.8354 28.9517 50.5679 30.9581 53.4094C32.9644 56.2509 34.898 58.929 36.7682 61.5799C38.6383 64.2308 40.3178 66.5911 41.7794 68.6701C43.241 70.749 44.4121 72.4557 45.2836 73.7902C45.7796 74.4879 46.1996 75.2365 46.5364 76.0235ZM71.883 16.6242C71.9023 16.7793 71.8771 16.9367 71.8104 17.0781V76.0235C71.809 76.1743 71.7778 76.3233 71.7186 76.4619C71.6594 76.6006 71.5734 76.7262 71.4655 76.8315C71.3588 76.94 71.2317 77.0265 71.0914 77.0857C70.9512 77.1449 70.8006 77.1757 70.6484 77.1764C70.5038 77.1781 70.3606 77.1481 70.2288 77.0885C70.0971 77.0289 69.98 76.9412 69.8858 76.8315C69.6852 76.6104 69.575 76.322 69.5772 76.0235V20.3916L42.9959 57.6127C43.1956 57.9758 85.1283 116.24 85.7184 117.121C86.1175 117.599 86.4252 118.147 86.6262 118.737C86.6331 118.908 86.6017 119.078 86.5341 119.235C86.4666 119.392 86.3646 119.532 86.2358 119.645C86.0113 119.868 85.7084 119.995 85.3916 119.999C85.213 120.007 85.0353 119.969 84.8761 119.888C84.7169 119.807 84.5816 119.685 84.4837 119.536L0.227998 1.92638C0.0695864 1.7011 -0.0101789 1.42989 0.00104053 1.15472C-0.00110547 0.859448 0.10187 0.573048 0.291546 0.346748C0.395047 0.231582 0.522871 0.140878 0.665755 0.081212C0.808639 0.0215461 0.963002 -0.0055917 1.11767 0.00176848C1.31239 -0.00967982 1.50635 0.034634 1.67679 0.129501C1.84723 0.224369 1.98709 0.365868 2.07997 0.537399L41.5706 55.6427L69.7678 16.0431C69.851 15.8946 69.9742 15.7724 70.1235 15.6905C70.2728 15.6086 70.4421 15.5704 70.6121 15.5801C70.9405 15.5801 71.2596 15.6886 71.5199 15.8888C71.6339 15.9743 71.7262 16.0854 71.7893 16.2131C71.8523 16.3409 71.8845 16.4817 71.883 16.6242Z" fill="#010101"></path>
+								<path d="M86.3268 56.8229C86.4778 56.8241 86.6275 56.7954 86.7673 56.7385C86.9071 56.6815 87.0343 56.5974 87.1415 56.4911C87.2487 56.3848 87.3338 56.2583 87.3918 56.1189C87.4499 55.9795 87.4797 55.83 87.4797 55.679C87.4797 55.3733 87.3583 55.08 87.142 54.8638C86.9258 54.6476 86.6326 54.5261 86.3268 54.5261H77.0125V77.2219H86.3268C86.6326 77.2219 86.9258 77.1004 87.142 76.8842C87.3583 76.6679 87.4797 76.3747 87.4797 76.0689C87.4797 75.9179 87.4499 75.7684 87.3918 75.6291C87.3338 75.4897 87.2487 75.3632 87.1415 75.2568C87.0343 75.1505 86.9071 75.0664 86.7673 75.0095C86.6275 74.9525 86.4778 74.9238 86.3268 74.925H79.5362V66.8635H85.0649C85.2135 66.8647 85.3609 66.8365 85.4985 66.7804C85.6361 66.7244 85.7613 66.6417 85.8668 66.537C85.9723 66.4324 86.056 66.3079 86.1131 66.1707C86.1703 66.0335 86.1997 65.8864 86.1997 65.7378C86.1997 65.4368 86.0801 65.1482 85.8673 64.9354C85.6545 64.7226 85.3659 64.603 85.0649 64.603H79.5362V56.8683L86.3268 56.8229Z" fill="#231F20"></path>
+								<path d="M110.157 65.1114C112.127 64.4941 112.808 63.0052 112.808 60.5722V59.5101C112.808 56.1783 111.419 54.4898 107.888 54.4898H102.813V77.1855H108.06C111.583 77.1855 113.235 75.27 113.235 71.8747V69.9683C113.198 67.4718 112.354 65.7196 110.157 65.1114ZM105.337 56.8229H107.824C109.64 56.8229 110.321 57.7943 110.321 59.8006V61.126C110.321 63.4864 109.286 64.14 107.279 64.14H105.337V56.8229ZM110.711 71.8021C110.711 73.9083 109.867 74.8796 107.988 74.8796H105.337V66.4368H107.534C109.703 66.4368 110.711 67.272 110.711 69.7958V71.8021Z" fill="#231F20"></path>
+								<path d="M119.19 54.5261L114.851 77.2219C114.851 77.3752 114.881 77.5271 114.94 77.6686C114.999 77.8102 115.085 77.9387 115.194 78.0468C115.303 78.1548 115.432 78.2402 115.574 78.298C115.716 78.3559 115.868 78.3851 116.022 78.3839C116.33 78.3839 116.626 78.2615 116.844 78.0435C117.061 77.8256 117.184 77.53 117.184 77.2219L118.092 72.6827H123.82L124.728 77.2219C124.728 77.5565 124.861 77.8775 125.098 78.1141C125.334 78.3508 125.655 78.4837 125.99 78.4837C126.156 78.4837 126.32 78.4511 126.473 78.3877C126.626 78.3243 126.765 78.2313 126.882 78.1141C126.999 77.997 127.092 77.8579 127.156 77.7048C127.219 77.5517 127.252 77.3876 127.252 77.2219L122.921 54.5261H119.19ZM118.382 70.4404L120.87 57.3767L123.43 70.4404H118.382Z" fill="#231F20"></path>
+								<path d="M151.327 54.5261H146.352V77.2219H151.327C154.822 77.2219 156.339 74.925 156.339 71.5933V60.1546C156.339 56.8229 154.822 54.5261 151.327 54.5261ZM154.859 71.6115C154.859 74.0989 153.815 75.8147 151.3 75.8147H147.832V55.8425H151.3C153.788 55.8425 154.859 57.5582 154.859 60.0457V71.6115Z" fill="#231F20"></path>
+								<path d="M163.792 54.5261H158.808V77.2219H163.792C167.287 77.2219 168.803 74.925 168.803 71.5933V60.1546C168.803 56.8229 167.287 54.5261 163.792 54.5261ZM167.314 71.6115C167.314 74.0989 166.279 75.8147 163.756 75.8147H160.297V55.8425H163.756C166.252 55.8425 167.314 57.5582 167.314 60.0457V71.6115Z" fill="#231F20"></path>
+								<path d="M100.48 74.8796H92.7451L100.543 56.7957V54.5261H90.5572C90.2514 54.5261 89.9581 54.6476 89.7419 54.8638C89.5257 55.08 89.4042 55.3733 89.4042 55.679C89.4042 55.83 89.4341 55.9795 89.4922 56.1189C89.5502 56.2583 89.6353 56.3848 89.7425 56.4911C89.8497 56.5974 89.9768 56.6815 90.1167 56.7385C90.2565 56.7954 90.4062 56.8241 90.5572 56.8229H97.9651L90.2031 74.9069V77.1765H100.48C100.631 77.1765 100.78 77.1466 100.92 77.0885C101.059 77.0305 101.185 76.9454 101.292 76.8382C101.398 76.7311 101.482 76.6039 101.539 76.464C101.596 76.3242 101.625 76.1745 101.624 76.0235C101.625 75.873 101.596 75.7237 101.539 75.5844C101.482 75.445 101.398 75.3184 101.291 75.212C101.185 75.1055 101.058 75.0213 100.919 74.9643C100.78 74.9072 100.63 74.8784 100.48 74.8796Z" fill="#231F20"></path>
+								<path d="M143.093 53.8361C143.002 53.8349 142.911 53.8519 142.826 53.886C142.742 53.9202 142.665 53.9708 142.6 54.035C142.535 54.0992 142.483 54.1756 142.448 54.26C142.412 54.3443 142.394 54.4347 142.394 54.5261V71.6841C142.394 74.1171 141.486 75.9963 138.999 75.9963C136.512 75.9963 135.604 74.1352 135.604 71.6841V54.5261C135.604 54.3287 135.525 54.1393 135.386 53.9997C135.246 53.8601 135.057 53.7817 134.859 53.7817C134.662 53.7817 134.473 53.8601 134.333 53.9997C134.193 54.1393 134.115 54.3287 134.115 54.5261V71.6841C134.115 74.925 135.504 77.4125 138.963 77.4125C142.422 77.4125 143.783 74.925 143.783 71.6841V54.5261C143.783 54.4355 143.765 54.3458 143.731 54.2621C143.696 54.1784 143.645 54.1023 143.581 54.0382C143.517 53.9742 143.441 53.9233 143.357 53.8887C143.274 53.854 143.184 53.8361 143.093 53.8361Z" fill="#231F20"></path>
+								<path d="M172.017 53.7817C171.819 53.7817 171.63 53.8601 171.49 53.9997C171.351 54.1393 171.272 54.3287 171.272 54.5261V77.2219C171.272 77.4193 171.351 77.6086 171.49 77.7482C171.63 77.8878 171.819 77.9663 172.017 77.9663C172.214 77.9663 172.404 77.8878 172.543 77.7482C172.683 77.6086 172.761 77.4193 172.761 77.2219V54.5261C172.761 54.3287 172.683 54.1393 172.543 53.9997C172.404 53.8601 172.214 53.7817 172.017 53.7817Z" fill="#231F20"></path>
+								<path d="M184.763 53.8452C184.583 53.8476 184.411 53.9201 184.284 54.0472C184.157 54.1744 184.084 54.3462 184.082 54.5261V73.645L177.291 54.5261H175.348V77.2218C175.348 77.4024 175.42 77.5756 175.548 77.7033C175.676 77.831 175.849 77.9027 176.029 77.9027C176.209 77.9004 176.381 77.8279 176.508 77.7007C176.635 77.5735 176.708 77.4017 176.71 77.2218V57.0317L183.791 77.2218H185.444V54.5261C185.441 54.3462 185.369 54.1744 185.241 54.0472C185.114 53.9201 184.942 53.8476 184.763 53.8452Z" fill="#231F20"></path>
+							</svg>
+						</a>
+						<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+						</button>
+						<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+							<ul class="navbar-nav me-auto mb-2 mb-lg-0 navbar navbar-expand-lg bg-white nav justify-content-end">
+								<li class="nav-item">
+									<a class="nav-link active me-5 py-2 text-cs-color text-decoration-none" aria-current="page" href="#">Home</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link me-5 py-2 text-cs-color text-decoration-none" href="#">About</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link me-5 py-2 text-cs-color text-decoration-none">Case Study</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link me-5 py-2 text-cs-color text-decoration-none">Tools</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link me-5 py-2 text-cs-color text-decoration-none">Blog</a>
+								</li>
+								<li class="nav-item">
+									<a href="#" class="text-white text-decoration-none btn btn-warning py-2 px-4 me-5">Contact</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</nav>
+			</div>
+		</header>
+		<main>
+			<div class="row">
+				<div class="col-md-6">
+					<img src="{% static 'staging/images/mezbauddin.png' %} " class="img-fluid" alt="image">
+				</div>
+				<div class="col-md-6 pt-5 ms-auto border-bottom-cs">
+					<h1 class="text-end">Hello! I’m Mezba Uddin</h1>
+					<h4 class="text-end">
+						<p class="text-warning">System Administrator | IT Management | Businesses Management | Cybersecurity | AWS | Office 356 | Exchange Server</p>
+					</h4>
+					<p class="text-end mt-5">Experienced IT Professional with a wealth of experience in supporting users with Windows Server, Mac and Management. Has been responsible for managing teams in the past to improve productivity and enhance performance. Works closely with users, ensuring their needs are met and that they receive the best service possible. Confident in taking on new challenges to improve and develop in all areas such as customer experience. Keen interest in working with others whilst learning from them and sharing knowledge gained</p>
+					<p class="text-end mt-4">Frequency, so with from the point tone the it its is written on the client brief intermixing</p>
+					<div class="d-grid gap-2 d-flex justify-content-md-end">
+						<button type="button" class="btn btn-warning btn-lg mt-5 ms-sm-5 mb-2 text-end text-white">Get Connected </button>
+					</div>
+				</div>
+			</div>
+			<div class="row about-me mt-md-6 mt-sm-3 ">
+				<div class="col-md-6 pt-5 order-sm-last">
+					<h1 class="">About Me</h1>
+					<p class="text-start mt-5 me-5">Next this not shut rethoric best had well of was on facility presented. Groundtem , economics and the get title in he attention if one sleep a self-interest. To be the best conduct, slight probably looking hitting be absused</p>
+					<p class="text-start mt-4 me-5">Frequency, so with from the point tone the it its is written on the client brief intermixing</p>
+					<div class="d-grid gap-2 d-flex justify-content-md-start">
+						<button type="button" class="btn btn-warning btn-lg mt-3 mb-sm-5 text-center text-white px-4">Know More</button>
+					</div>
+				</div>
+				<div class="col-md-6 pt-5 order-sm-first">
+					<img src=" {% static 'staging/images/istockphoto-1.jpg' %} " class="img-fluid" alt="image">
+				</div>
+			</div>
+			<div class="row work-experience mt-6 justify-content-end">
+				<div class="col-md-6 pt-5">
+					<h1 class="text-end">Experiences</h1>
+					<p class="text-end mt-5">Next this not shut rethoric best had well of was on facility presented. Groundtem </p>
+				</div>
+				<div class="col-md-12 pt-5" style="min-height: 300px;">
+					<div class="card mb-3 h-100">
+						<div class="row g-0 h-100">
+							<div class="col-md-4 bg-warning">
+								<div class="designation px-3 pt-5">
+									<h4 class="text-start text-white">Infrastructure Engineer</h4>
+									<small class=" text-white">East Lancashire Hospitals NHS Trust</small>
+									<p class="p-4 ps-0 text-white">
+										Next this not shut rethoric best had well of was on facility presented. Groundtem economics and the get title in he attention if one sleep a self-interest. To be the best conduct, slight probably looking hitting be absused
+									</p>
+								</div>
+							</div>
+							<div class="col-md-8 gx-10">
+								<div class="card-body position-absolute top-50 start-50 translate-middle-y">
+									<div class="w-75">
+										<h4 class="text-start">Infrastructure Engineer</h4>
+										<small class="text-warning">East Lancashire Hospitals NHS Trust</small>
+										<p class="p-4 ps-0 text-start">
+											Next this not shut rethoric best had well of was on facility presented. Groundtem economics and the get title in he attention if one sleep a self-interest. To be the best conduct, slight probably looking hitting be absused
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row my-project mt-6">
+				<div class="col-md-6 pt-md-5">
+					<h1 class="text-start">Me Projects</h1>
+					<p class="text-start mt-5">Next this not shut rethoric best had well of was on facility presented. Groundtem </p>
+				</div>
+				<div class="col-md-6 pt-md-5">
+					<div class="position-relative justify-content-end text-md-end mt-md-4 top-50">
+						<a href="#" class="p-md-3 text-decoration-none text-warning fw-bold">Popular</a>
+						<a href="#" class="p-md-3 text-decoration-none">Latest</a>
+						<a href="#" class="p-md-3 text-decoration-none">Upcoming</a>
+						<a href="#" class="p-md-3 text-decoration-none">All</a>
+					</div>
+				</div>
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+					<div class="col">
+						<div class="card shadow-sm">
+							<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+								<title>Placeholder</title>
+								<rect width="100%" height="100%" fill="#55595c"></rect>
+								<text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
+							</svg>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card shadow-sm">
+							<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+								<title>Placeholder</title>
+								<rect width="100%" height="100%" fill="#55595c"></rect>
+								<text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
+							</svg>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card shadow-sm">
+							<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+								<title>Placeholder</title>
+								<rect width="100%" height="100%" fill="#55595c"></rect>
+								<text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
+							</svg>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card shadow-sm">
+							<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+								<title>Placeholder</title>
+								<rect width="100%" height="100%" fill="#55595c"></rect>
+								<text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
+							</svg>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card shadow-sm">
+							<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+								<title>Placeholder</title>
+								<rect width="100%" height="100%" fill="#55595c"></rect>
+								<text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
+							</svg>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card shadow-sm">
+							<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+								<title>Placeholder</title>
+								<rect width="100%" height="100%" fill="#55595c"></rect>
+								<text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
+							</svg>
+						</div>
+					</div>
+					<div class="col">
+						<button type="button" class="btn btn-warning w-75 py-3 text-white fw-semibold">View All Projects</button>
+					</div>
+				</div>
+			</div>
+			<div class="row my-specialty mt-6">
+				<div class="col-md-6">
+					<div class="d-flex align-items-start w-100">
+						<div class="nav flex-column nav-pills me-md-3 w-75" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+							<button class="nav-link text-bg-light fw-semibold p-4 my-2 " id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="false" tabindex="-1"><i class="fa-solid fa-network-wired me-3"></i> Communication Skill</button>
+							<button class="nav-link text-bg-light text-white fw-semibold p-4 my-2 active" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="true"><i class="fa-solid fa-globe me-3"></i> Understanding Skill</button>
+							<button class="nav-link text-bg-light fw-semibold p-4 my-2" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false" tabindex="-1"><i class="fa-solid fa-people-roof me-3"></i> Management Skill</button>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 mt-3">
+					<div class="d-flex align-items-start">
+						<div class="tab-content" id="v-pills-tabContent">
+							<div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
+								<h1 class="text-end">Me Experience</h1>
+								<p class="text-end mt-5">Next this not shut rethoric best had well of was on facility presented. Groundtem </p>
+							</div>
+							<div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
+								<h1 class="text-end">Experiences</h1>
+								<p class="text-end mt-5">Next this not shut rethoric best had well of was on facility presented. Groundtem </p>
+							</div>
+							<div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab" tabindex="0">
+								<h1 class="text-end">Experiences</h1>
+								<p class="text-end mt-5">Next this not shut rethoric best had well of was on facility presented. Groundtem </p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row contact-us mt-6 justify-content-start">
+				<div class="col-md-6 pt-5">
+					<h1 class="text-start">Experiences</h1>
+					<p class="text-start mt-5">Next this not shut rethoric best had well of was on facility presented. Groundtem </p>
+				</div>
+				<div class="col-md-12 pt-5" style="min-height: 300px;">
+					<div class="card mb-3 h-100 bg-warning">
+						<div class="d-flex align-content-center flex-wrap h-100 mb-3">
+							<div class="me-auto ps-5">
+								<h1 class="text-white">Say Hello</h1>
+							</div>
+							<div class="p-md-2">
+								<h4 class="text-white">hello@mezbauddin.com</h4>
+							</div>
+							<div class="pe-5">
+								<button type="button" class="btn btn-light btn-lg text-warning px-5">Say, Hello</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<footer class="pt-4 pt-md-5 border-top">
+			<div class="row">
+				<div class="col-md">
+					<h4 class="text-uppercase">Let's Talk</h4>
+					<ul class="list-unstyled text-small pt-4">
+						<li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Address</a></li>
+						<li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Phone</a></li>
+						<li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Email</a></li>
+						<li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Skype</a></li>
+						<li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Online</a></li>
+					</ul>
+				</div>
+				<div class="col-md">
+					<h4 class="text-uppercase">Info</h4>
+					<ul class="list-unstyled text-small pt-4">
+						<li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Resource</a></li>
+						<li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Resource name</a></li>
+						<li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Another resource</a></li>
+						<li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Final resource</a></li>
+					</ul>
+				</div>
+				<div class="col-md">
+					<h4 class="text-uppercase">Why Me</h4>
+					<ul class="list-unstyled text-small pt-4">
+						<li class="mb-1">
+							<p>
+								Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essen
+							</p>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="row mt-5">
+				<div class="d-flex">
+					<div class="p-2 flex-grow-1">
+						<p>@2007 - 2022 Mezba Uddin | All rights raserved </p>
+					</div>
+					<div class="p-2">
+						<span class="mx-2"><i class="fa-brands fa-facebook-f"></i></span>
+						<span class="mx-2"><i class="fa-brands fa-linkedin-in"></i></span>
+						<span class="mx-2"><i class="fa-brands fa-twitter"></i></span>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+{% endblock %}
