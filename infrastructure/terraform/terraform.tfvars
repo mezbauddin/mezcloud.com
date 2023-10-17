@@ -12,6 +12,11 @@ vm_size = "Standard_B2s_v2"
 
 # Azure VM OS disk Configuration
 os_disk_name = "mezcloud-osdisk" # Azure VM OS disk name
-disk_type = "Standard_LRS" # Azure VM OS disk type
-disk_size_gb = 30 # Azure VM OS disk size in GB
+os_disk_type = "Standard_LRS" # Azure VM OS disk type
+disk_size_gb = 35 # Azure VM OS disk size in GB
 
+# Azure VM os profile configuration
+# azure vm os sku
+os_sku = "18.04-LTS" # Ubuntu 18.04 LTS
+
+# path to ssh public key

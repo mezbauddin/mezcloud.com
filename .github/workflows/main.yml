@@ -1,4 +1,4 @@
-name: mezbauddin.com CI/CD Build, Push, Deploy, and Provision Infrastructure
+name: CI/CD for mezbauddin.com
 
 on:
   push:
@@ -11,51 +11,57 @@ env:
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   SERVER_HOST: ${{ secrets.SERVER_HOST }}
   SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
-  TFE_TOKEN: ${{ secrets.TF_CLOUD_TOKEN }} # Corrected variable name
+  TFE_TOKEN: ${{ secrets.TF_CLOUD_TOKEN }}
 
 jobs:
-  build-push-deploy:
+  build-push-deploy-provision:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v2
+
+      - name: Configure Terraform Cloud Authentication
+        run: |
+          # Set up Terraform Cloud authentication
+          echo 'credentials "app.terraform.io" {
+            token = "${{ env.TFE_TOKEN }}"
+          }' > ~/.terraformrc
+
+      - name: Deploy Infrastructure with Terraform
+        run: |
+          cd infrastructure/terraform
+          terraform init
+          terraform apply -replace=null_resource.run_ansible -auto-approve
 
       - name: Login to Docker Hub
         uses: docker/login-action@v1
         with:
-          username: ${{ env.DOCKER_USERNAME }}
-          password: ${{ env.DOCKER_PASSWORD }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build Docker image
+      - name: Build Docker Image
         run: docker build -t ${{ env.IMAGE_NAME }} .
 
-      - name: Tag Docker image
+      - name: Tag Docker Image
         run: docker tag ${{ env.IMAGE_NAME }} ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
 
-      - name: Push Docker image
+      - name: Push Docker Image
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
           tags: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
 
-      - name: Configure Terraform Cloud
-        run: |
-          # Set up Terraform Cloud authentication
-          echo 'credentials "app.terraform.io" {
-            token = "${{ env.TFE_TOKEN }}" # Use the correct variable name
-          }' > ~/.terraformrc
-
-      - name: Provision Infrastructure with Terraform
-        run: |
-          cd infrastructure/terraform
-          terraform init
-          terraform apply -replace=null_resource.run_ansible -auto-approve
-
-      - name: Deploy to Server
+      - name: Deploy Application to Server
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key
           chmod 600 ssh_key
+
+          # Log in to Docker Hub on the server using docker/login-action
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+          # Continue with the deployment
           ssh -o StrictHostKeyChecking=no -i ssh_key -l ${{ env.SERVER_USERNAME }} ${{ env.SERVER_HOST }} '
           cd /home/houddinii/mezbauddin.com-MezCloud && \
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
@@ -64,8 +70,7 @@ jobs:
             COMPOSE_FILE=./docker-compose.staging.yml
           fi && \
           echo "Using Docker Compose file: $COMPOSE_FILE" && \
-          docker-compose -f $COMPOSE_FILE down || true && \
-          docker-compose -f $COMPOSE_FILE pull && \
+          docker-compose -f $COMPOSE_FILE down || true
+          docker-compose -f $COMPOSE_FILE pull
           docker-compose -f $COMPOSE_FILE up -d
           '
-        shell: /usr/bin/bash -e {0}

@@ -35,8 +35,8 @@ variable "os_disk_name" {
   default     = "osdisk" # Set a default value or leave it empty if you prefer
 }
 
-# azure vm disk type
-variable "disk_type" {
+# azure vm os disk type
+variable "os_disk_type" {
   description = "The type of the Azure VM disk"
   type        = string
   default     = "StandardSSD_LRS" # Set a default value or leave it empty if you prefer
@@ -48,3 +48,17 @@ variable "disk_size_gb" {
   type        = number
   default     = 128 # Set a default value or leave it empty if you prefer
 }
+
+# azure vm os sku
+variable "os_sku" {
+  description = "The sku of the Azure VM OS"
+  type        = string
+  default     = "18.04-LTS" # Set a default value or leave it empty if you prefer
+}
+
+# # ssh private key path
+# variable "private_key_path" {
+#   description = "The path to the private key used to connect to the Azure VM"
+#   type        = string
+#   default     = "" # Set a default value or leave it empty if you prefer
+# }

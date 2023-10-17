@@ -1,33 +1,80 @@
 ---
-- hosts: mezcloud # This matches the group name in the generated inventory file
-  remote_user: "{{ansible_user}}"  # This matches the user name in the generated inventory file
-  become: yes  # using sudo
-
+- name: Install Docker, Docker Compose, Git, and Clone a Git Repository
+  hosts: mezcloud
+  remote_user: "{{ ansible_user }}"
+  become: yes
   tasks:
     - name: Update apt package cache
       apt:
         update_cache: yes
+# Disable shh fingerprinting
+    - name: Disable shh fingerprinting
+      lineinfile:
+        path: /etc/ssh/ssh_config
+        regexp: '^#?StrictHostKeyChecking'
+        line: 'StrictHostKeyChecking no'
+        state: present
 
+
+# Install Docker
     - name: Install Docker
       apt:
         name: docker.io
         state: present
-
+# Install Docker Compose
     - name: Install Docker Compose
       apt:
         name: docker-compose
         state: present
-
+# Start Docker service
     - name: Start Docker service
       systemd:
         name: docker
         enabled: yes
         state: started
+# Install Git
+    - name: Add user to the docker group
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
+# Install Git
+    - name: Install Git
+      apt:
+        name: git
+        state: present
 
-    - name: Clone Git repository with a GitHub Personal Access Token
+
+    - name: Delete Existing Directory
+      file:
+        path: /home/houddinii/mezbauddin.com-MezCloud
+        state: absent
+      ignore_errors: yes
+
+    - name: Clone Git Repository to Root Directory
       git:
-        repo: https://github.com/mezbauddin/mezbauddin.com-MezCloud.git
-        dest: /
-        update: yes
-        accept_hostkey: yes  # This is for HTTPS authentication
-        access_token: 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  # Replace with your token
+        repo: "https://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@github.com/mezbauddin/mezbauddin.com-MezCloud.git"
+        dest: /home/houddinii/mezbauddin.com-MezCloud
+        version: main
+      register: git_clone_result
+
+    - name: Debug Git Clone
+      debug:
+        var: git_clone_result
+
+
+# # Login to Docker Hub
+#     - name: Docker Hub login
+#       community.docker.docker_login:
+#         username: mezbauddin
+#         password: Gonzo198@
+#       tags: [docker-login]
+
+# # docker compose.prod up
+#     - name: docker compose.prod up
+#       command: docker-compose -f /mezbauddin.com-MezCloud/docker-compose.prod.yml up -d
+#       args:
+#         chdir: /mezbauddin.com-MezCloud
+#       tags: [docker-compose.prod-up]
+#
+#############################################

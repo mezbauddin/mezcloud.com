@@ -18,10 +18,11 @@ resource "tls_private_key" "ssh_key" {
   rsa_bits  = 2048
 }
 
-# Save the private key to a local file
+# Save the private key to a local file with 600 permissions
 resource "local_file" "private_key" {
   filename = "${path.module}/private_key.pem"
   content  = tls_private_key.ssh_key.private_key_pem
+  file_permission = "600"
 }
 
 # Store the private key path in a local variable
@@ -101,7 +102,7 @@ resource "azurerm_virtual_machine" "vm" {
   storage_image_reference {
     publisher = "Canonical"
     offer     = "UbuntuServer"
-    sku       = "18.04-LTS"
+    sku       = var.os_sku  # Updated OS SKU in cofig.tfvars
     version   = "latest"
   }
 
@@ -109,7 +110,7 @@ resource "azurerm_virtual_machine" "vm" {
   name              = var.os_disk_name # Updated disk name in cofig.tfvars
   caching           = "ReadWrite"
   create_option     = "FromImage"
-  managed_disk_type = var.disk_type  # Specify Standard HDD type here
+  managed_disk_type = var.os_disk_type  # Specify Standard HDD type here
   }
 
   os_profile {
@@ -146,8 +147,8 @@ resource "null_resource" "run_ansible" {
   }
   
   provisioner "local-exec" {
-    # Specify the commands to set SSH key permissions and run your Ansible playbook; define the logfile creation. 
-    command = "chmod 644 ../ansible/ansible_ssh_key && ansible-playbook -i ../ansible/inventory.ini ../ansible/install_docker.yml && echo \"$(date -u '+%Y-%m-%dT%H:%M:%SZ') 0\" >> ../ansible/ansible_log.txt || echo \"$(date -u '+%Y-%m-%dT%H:%M:%SZ') 1\" >> ../ansible/ansible_log.txt"
+    # Specify the commands to set SSH key permissions and run your Ansible playbook; define the logfile creation & change permissions to 600.
+    command = "yes | chmod 600 ../ansible/ansible_ssh_key && ansible-playbook -i ../ansible/inventory.ini ../ansible/install_docker.yml && echo \"$(date -u '+%Y-%m-%dT%H:%M:%SZ') 0\" >> ../ansible/ansible_log.txt || echo \"$(date -u '+%Y-%m-%dT%H:%M:%SZ') 1\" >> ../ansible/ansible_log.txt"
     interpreter = ["sh", "-c"]
   }
 
@@ -156,7 +157,7 @@ resource "null_resource" "run_ansible" {
 }
 
 
-# Create an Ansible inventory file
+# Create an Ansible inventory file and give it the necessary permission 600
 resource "local_file" "ansible_inventory" {
   content = <<EOF
 [mezcloud]
@@ -164,4 +165,6 @@ ${data.azurerm_public_ip.vm_public_ip.ip_address} ansible_user=${var.admin_usern
 EOF
 
   filename = "${path.module}/../ansible/inventory.ini"
+  file_permission = "600"
 }
+
