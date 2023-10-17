@@ -148,7 +148,7 @@ resource "null_resource" "run_ansible" {
   
   provisioner "local-exec" {
     # Specify the commands to set SSH key permissions and run your Ansible playbook; define the logfile creation & change permissions to 600.
-    command = "yes | chmod 600 ../ansible/ansible_ssh_key && ansible-playbook -i ../ansible/inventory.ini ../ansible/install_docker.yml && echo \"$(date -u '+%Y-%m-%dT%H:%M:%SZ') 0\" >> ../ansible/ansible_log.txt || echo \"$(date -u '+%Y-%m-%dT%H:%M:%SZ') 1\" >> ../ansible/ansible_log.txt"
+    command = "yes | chmod 600 ../ansible/ansible_ssh_key && ansible-playbook -i chmod 600 ../ansible/inventory.ini chmod 600 ../ansible/install_docker.yml && echo \"$(date -u '+%Y-%m-%dT%H:%M:%SZ') 0\" >> ../ansible/ansible_log.txt || echo \"$(date -u '+%Y-%m-%dT%H:%M:%SZ') 1\" >> ../ansible/ansible_log.txt"
     interpreter = ["sh", "-c"]
   }
 
