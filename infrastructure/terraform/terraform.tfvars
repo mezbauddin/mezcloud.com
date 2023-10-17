@@ -20,3 +20,4 @@ disk_size_gb = 35 # Azure VM OS disk size in GB
 os_sku = "18.04-LTS" # Ubuntu 18.04 LTS
 
 # path to ssh public key
+ssh_private_key_path = "~/mezcloud.com/infrastructure/ansible/ansible_ssh_key"

@@ -56,9 +56,9 @@ variable "os_sku" {
   default     = "18.04-LTS" # Set a default value or leave it empty if you prefer
 }
 
-# # ssh private key path
-# variable "private_key_path" {
-#   description = "The path to the private key used to connect to the Azure VM"
-#   type        = string
-#   default     = "" # Set a default value or leave it empty if you prefer
-# }
+# ssh private key path
+variable "ssh_private_key_path" {
+  description = "The path to the private key used to connect to the Azure VM"
+  type        = string
+  default     = "~/mezcloud.com/infrastructure/ansible/ansible_ssh_key" # Set a default value or leave it empty if you prefer
+}

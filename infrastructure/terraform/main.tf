@@ -161,7 +161,7 @@ resource "null_resource" "run_ansible" {
 resource "local_file" "ansible_inventory" {
   content = <<EOF
 [mezcloud]
-${data.azurerm_public_ip.vm_public_ip.ip_address} ansible_user=${var.admin_username} ansible_ssh_private_key_file=../ansible/ansible_ssh_key
+${data.azurerm_public_ip.vm_public_ip.ip_address} ansible_user=${var.admin_username} ansible_ssh_private_key_file=${var.ssh_private_key_path}
 EOF
 
   filename = "${path.module}/../ansible/inventory.ini"
