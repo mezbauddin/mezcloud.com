@@ -47,14 +47,14 @@
 
     - name: Delete Existing Directory
       file:
-        path: /home/houddinii/mezbauddin.com-MezCloud
+        path: /home/houddinii/mezcloud.com
         state: absent
       ignore_errors: yes
 
     - name: Clone Git Repository to Root Directory
       git:
-        repo: "https://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@github.com/mezbauddin/mezbauddin.com-MezCloud.git"
-        dest: /home/houddinii/mezbauddin.com-MezCloud
+        repo: "https://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@github.com/mezbauddin/mezcloud.com.git"
+        dest: /home/houddinii/mezcloud.com
         version: main
       register: git_clone_result
 

@@ -7,32 +7,37 @@
 __pycache__
 *.pyc
 .DS_Store
+*.swp
+/venv/
+/tmp/
+/.vagrant/
+/Vagrantfile.local
+node_modules/
+/npm-debug.log
+/.idea/
+.vscode
+coverage
+.python-version
 
-/data/
-/certbot/
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
 
-# Ignore Terraform state files
-**/*.tfstate
-**/*.tfstate.*
 
-# Ignore .terraform directory
 .terraform/
-
-# Ignore .tfvars files that might contain sensitive information
-*.auto.tfvars
-*.auto.tfvars.json
-*.tfvars
-*.tfvars.json
-
-# Ignore crash log files
-crash.log
-
-# Ignore .terraformrc, terraform.rc, terraform.d, terraformrc.json, terraform.rc.json files
-terraform.rc
-terraform.rc.json
-.terraformrc
-terraform.d
-terraformrc.json
-terraform-provider-gcp*
-
-.terraform
+.terraform.lock.hcl
