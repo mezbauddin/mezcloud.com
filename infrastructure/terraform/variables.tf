@@ -60,5 +60,5 @@ variable "os_sku" {
 variable "ssh_private_key_path" {
   description = "The path to the private key used to connect to the Azure VM"
   type        = string
-  default     = "../infrastructure/ansible/ansible_ssh_key" # Set a default value or leave it empty if you prefer
+  default     = "./infrastructure/ansible/ansible_ssh_key" # Set a default value or leave it empty if you prefer
 }
