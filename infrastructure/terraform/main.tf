@@ -128,10 +128,6 @@ resource "azurerm_virtual_machine" "vm" {
     }
   }
 
-    # clera known host on the server
-    resource "local_exec" "clear_known_hosts" {
-      command = "ssh-keygen -R [data.azurerm_public_ip.vm_public_ip.ip_address]"
-      
   tags = {
     environment = "development"
   }
