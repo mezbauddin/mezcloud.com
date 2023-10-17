@@ -12,6 +12,8 @@ env:
   SERVER_HOST: ${{ secrets.SERVER_HOST }}
   SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
   TFE_TOKEN: ${{ secrets.TF_CLOUD_TOKEN }}
+  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
 
 jobs:
   build-push-deploy-provision:
