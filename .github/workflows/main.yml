@@ -82,3 +82,17 @@ jobs:
           docker-compose -f $COMPOSE_FILE up -d
           '
           
+      - name: Debug SSH Connection
+        run: |
+          # Debug SSH connection
+          echo "Setting up SSH key..."
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key
+          chmod 600 ssh_key
+
+          # Debug SSH agent setup
+          eval "$(ssh-agent -s)"
+          ssh-add ssh_key
+
+          # Debug SSH connection using verbose output
+          ssh -v -o StrictHostKeyChecking=no -i ssh_key -l ${{ env.SERVER_USERNAME }} ${{ env.SERVER_HOST }} 'echo Hello'
+
