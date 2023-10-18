@@ -69,6 +69,7 @@ jobs:
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
           # Continue with the deployment
+          
           ssh -o StrictHostKeyChecking=no -i ssh_key -l ${{ env.SERVER_USERNAME }} ${{ env.SERVER_HOST }} '
           cd /home/houddinii/mezcloud.com && \
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
