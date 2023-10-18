@@ -69,17 +69,15 @@ jobs:
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
           # Continue with the deployment
-          
-          ssh -o StrictHostKeyChecking=no -i ssh_key -l ${{ env.SERVER_USERNAME }} ${{ env.SERVER_HOST }} '
+          ssh -o StrictHostKeyChecking=no -i ssh_key ${{ env.SERVER_USERNAME }}@${{ env.SERVER_HOST }} '
           cd /home/houddinii/mezcloud.com && \
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            COMPOSE_FILE=./docker-compose.prod.yml
+          COMPOSE_FILE=./docker-compose.prod.yml
           else
-            COMPOSE_FILE=./docker-compose.staging.yml
+          COMPOSE_FILE=./docker-compose.staging.yml
           fi && \
           echo "Using Docker Compose file: $COMPOSE_FILE" && \
           docker-compose -f $COMPOSE_FILE down || true
           docker-compose -f $COMPOSE_FILE pull
           docker-compose -f $COMPOSE_FILE up -d
           '
-          
