@@ -61,7 +61,7 @@ jobs:
       #     tags: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
 
       - name: Connect to server
-        run: ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} user@your-server-ip
+        run: ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ${{env.SERVER_USERNAME}}@${{env.SERVER_HOST}} 'echo "Connected to server"'
 
 
       - name: Deploy Application to Server
