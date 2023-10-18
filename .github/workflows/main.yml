@@ -38,8 +38,8 @@ jobs:
 
       - name: Run Ansible Deployment
         run: |
-          cd ansible
-          ansible-playbook -i /infrastructure/ansible/inventory.ini /infrastructure/ansible/install_docker.yml
+          cd infrastructure/ansible/
+          ansible-playbook -i inventory.ini install_docker.yml
 
       - name: Login to Docker Hub
         uses: docker/login-action@v1
