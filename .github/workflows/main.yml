@@ -70,7 +70,7 @@ jobs:
 
           # Continue with the deployment
           ssh -o StrictHostKeyChecking=no -i ssh_key -l ${{ env.SERVER_USERNAME }} ${{ env.SERVER_HOST }} '
-          cd /home/houddinii/mezbauddin.com-MezCloud && \
+          cd /home/houddinii/mezcloud.com && \
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
             COMPOSE_FILE=./docker-compose.prod.yml
           else
