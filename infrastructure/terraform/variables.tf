@@ -15,19 +15,6 @@ variable "resource_group_location" {
   default     = "westus2" # Set a default value or leave it empty if you prefer
 }
 
-# vnet name
-variable "vnet_name" {
-  description = "The name of the Azure VNet"
-  type        = string
-  default     = "mezcloud-vnet" # Set a default value or leave it empty if you prefer
-}
-
-# NSG name
-variable "nsg_name" {
-  description = "NSG name of the resource group"
-}
-
-# Vm admin user name
 variable "admin_username" {
   description = "The admin username for the Azure VM"
   type        = string
@@ -55,10 +42,23 @@ variable "os_disk_type" {
   default     = "StandardSSD_LRS" # Set a default value or leave it empty if you prefer
 }
 
-
-# ssh private key path
-variable "ssh_private_key_path" {
-  description = "The path to the private key used to connect to the Azure VM"
-  type        = string
-  default     = "~/mezcloud.com/infrastructure/ansible/ansible_ssh_key" # Set a default value or leave it empty if you prefer
+# azure vm disk size
+variable "disk_size_gb" {
+  description = "The size of the Azure VM disk in GB"
+  type        = number
+  default     = 128 # Set a default value or leave it empty if you prefer
 }
+
+# azure vm os sku
+variable "os_sku" {
+  description = "The sku of the Azure VM OS"
+  type        = string
+  default     = "18.04-LTS" # Set a default value or leave it empty if you prefer
+}
+
+# # ssh private key path
+# variable "private_key_path" {
+#   description = "The path to the private key used to connect to the Azure VM"
+#   type        = string
+#   default     = "" # Set a default value or leave it empty if you prefer
+# }
