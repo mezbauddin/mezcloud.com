@@ -1,8 +1,21 @@
 ## Configuration file for Azure ##
 
 # Azure resource group configuration
-resource_group_name = "mezcloud.com-rg"
+resource_group_name = "mezcloud_com-rg"
 resource_group_location = "westus2"
+
+# Configure tags for Azure resources
+tags = {
+    "owner": "houddinii",
+    "environment": "dev",
+    "project": "mezcloud.com"
+}
+
+# Azure vnet name
+vnet_name = "mezcloud-vnet"
+
+# NSG name
+nsg_name = "mezcloud-nsg 123"
 
 # Azure VM admin username
 admin_username = "houddinii"

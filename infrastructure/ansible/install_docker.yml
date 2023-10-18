@@ -7,14 +7,6 @@
     - name: Update apt package cache
       apt:
         update_cache: yes
-# Disable shh fingerprinting
-    - name: Disable shh fingerprinting
-      lineinfile:
-        path: /etc/ssh/ssh_config
-        regexp: '^#?StrictHostKeyChecking'
-        line: 'StrictHostKeyChecking no'
-        state: present
-
 
 # Install Docker
     - name: Install Docker
