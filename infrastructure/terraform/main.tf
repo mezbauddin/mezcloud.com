@@ -139,23 +139,24 @@ data "azurerm_public_ip" "vm_public_ip" {
   resource_group_name = azurerm_public_ip.public_ip.resource_group_name
 }
 
-# Define a null_resource to trigger Ansible playbook execution
-resource "null_resource" "run_ansible" {
-  triggers = {
-    # Use the virtual machine's ID as a trigger, so Ansible runs after VM creation.
-    instance_id = azurerm_virtual_machine.vm.id
-  }
-  
-  provisioner "local-exec" {
-    # Specify the commands to set SSH key permissions and run your Ansible playbook; define the logfile creation & change permissions to 600.
-    command = "yes | chmod 600 ../ansible/ansible_ssh_key && chmod 600 ../ansible/inventory.ini && chmod 600 ../ansible/install_docker.yml && ansible-playbook -i ../ansible/inventory.ini ../ansible/install_docker.yml && echo \"$(date -u '+%Y-%m-%dT%H:%M:%SZ') 0\" >> ../ansible/ansible_log.txt || echo \"$(date -u '+%Y-%m-%dT%H:%M:%SZ') 1\" >> ../ansible/ansible_log.txt"
-    interpreter = ["sh", "-c"]
-  }
-
-  # Ensure the Ansible playbook runs after the VM creation
-  depends_on = [azurerm_virtual_machine.vm]
-}
-
+##############
+## Define a null_resource to trigger Ansible playbook execution
+#resource "null_resource" "run_ansible" {
+#  triggers = {
+#    # Use the virtual machine's ID as a trigger, so Ansible runs after VM creation.
+#    instance_id = azurerm_virtual_machine.vm.id
+#  }
+#  
+#  provisioner "local-exec" {
+#    # Specify the commands to set SSH key permissions and run your Ansible playbook; define the logfile creation & change permissions to 600.
+#    command = "yes | chmod 600 ../ansible/ansible_ssh_key && chmod 600 ../ansible/inventory.ini && chmod 600 ../ansible/install_docker.yml && ansible-playbook -i ../ansible/inventory.ini ../ansible/install_docker.yml && echo \"$(date -u '+%Y-%m-%dT%H:%M:%SZ') 0\" >> ../ansible/ansible_log.txt || echo \"$(date -u '+%Y-%m-%dT%H:%M:%SZ') 1\" >> ../ansible/ansible_log.txt"
+#    interpreter = ["sh", "-c"]
+#  }
+#
+#  # Ensure the Ansible playbook runs after the VM creation
+#  depends_on = [azurerm_virtual_machine.vm]
+#}
+#############
 
 # Create an Ansible inventory file and give it the necessary permission 600
 resource "local_file" "ansible_inventory" {
