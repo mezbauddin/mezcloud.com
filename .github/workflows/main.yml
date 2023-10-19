@@ -60,35 +60,24 @@ jobs:
       #     push: true
       #     tags: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
 
-
-      - name: Create SSH Directory
-        run: mkdir -p ~/.ssh
-
-      - name: Set up SSH Key
+      - name: Set up SSH and Deploy
         run: |
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan $SERVER_HOST >> ~/.ssh/known_hosts
-          chmod 644 ~/.ssh/known_hosts
-
-      - name: Deploy Application to Server
-        run: |
-          echo ""$SSH_PRIVATE_KEY"" > ssh_key
+          echo "$SSH_PRIVATE_KEY" > ssh_key
           chmod 600 ssh_key
 
           # Log in to Docker Hub on the server using docker/login-action
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
           # Continue with the deployment
-          ssh -o StrictHostKeyChecking=no -i ssh_key ${{ env.SERVER_USERNAME }}@${{ env.SERVER_HOST }} '
-          cd /home/houddinii/mezcloud.com && \
-          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-          COMPOSE_FILE=./docker-compose.prod.yml
-          else
-          COMPOSE_FILE=./docker-compose.staging.yml
-          fi && \
-          echo "Using Docker Compose file: $COMPOSE_FILE" && \
-          docker-compose -f $COMPOSE_FILE down || true
-          docker-compose -f $COMPOSE_FILE pull
-          docker-compose -f $COMPOSE_FILE up -d
+          ssh -o StrictHostKeyChecking=no -i ssh_key $SERVER_USERNAME@$SERVER_HOST '
+            cd /home/houddinii/mezcloud.com && \
+            if [[ "$GITHUB_REF" == "refs/heads/main" ]]; then
+              COMPOSE_FILE=./docker-compose.prod.yml
+            else
+              COMPOSE_FILE=./docker-compose.staging.yml
+            fi && \
+            echo "Using Docker Compose file: $COMPOSE_FILE" && \
+            docker-compose -f $COMPOSE_FILE down || true
+            docker-compose -f $COMPOSE_FILE pull
+            docker-compose -f $COMPOSE_FILE up -d
           '
