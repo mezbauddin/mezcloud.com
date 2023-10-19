@@ -71,10 +71,10 @@ jobs:
           ssh-keyscan $SERVER_HOST >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
 
-      # - name: Deploy Application to Server
-      #   run: |
-      #     echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key
-      #     chmod 600 ssh_key
+      - name: Deploy Application to Server
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key
+          chmod 600 ssh_key
 
           # Log in to Docker Hub on the server using docker/login-action
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
