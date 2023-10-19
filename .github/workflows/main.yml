@@ -102,26 +102,31 @@ jobs:
       #     '
  
           
-      - name: Update DNS Record for Root Domain # https://developer.godaddy.com/doc/endpoint/domains#/v1/recordReplaceType
+      - name: Update DNS Record for Root Domain
         run: |
-          curl -X PUT "https://api.godaddy.com/v1/domains/mezcloud.com/records/A/@?ttl=600" \
+          HTTP_RESPONSE_CODE=$(curl -X PUT -s -o /dev/null -w "%{http_code}" "https://api.godaddy.com/v1/domains/${{ secrets.TARGET_DOMAIN }}/records/A/@?ttl=600" \
             -H "Authorization: sso-key ${{ secrets.GODADDY_API_KEY }}:${{ secrets.GODADDY_API_SECRET }}" \
             -H "Content-Type: application/json" \
             -d '[
               {
-                "data": "${{ env.SERVER_HOST }}",  # New IP address to update to
-                "port": 80,            # Set the desired port number
-                "priority": 10,        # Set the priority value
-                "protocol": "tcp",     # Set the desired protocol
-                "service": "http",     # Set the desired service name
+                "data": "${{ env.SERVER_HOST }}",
+                "port": 80,
+                "priority": 10,
+                "protocol": "tcp",
+                "service": "http",
                 "ttl": 600,
-                "weight": 1            # Set the weight value
+                "weight": 1
               }
-            ]'
-            
-            if [ "$HTTP_RESPONSE_CODE" -eq 200 ]; then
-            echo "DNS record update successful."
-          else
-            echo "DNS record update failed with HTTP response code: $HTTP_RESPONSE_CODE"
-          fi
+            ]')
+      
+            if [ -n "$HTTP_RESPONSE_CODE" ]; then
+              if [ "$HTTP_RESPONSE_CODE" -eq 200 ]; then
+                echo "DNS record update successful."
+              else
+                echo "DNS record update failed with HTTP response code: $HTTP_RESPONSE_CODE"
+              fi
+            else
+              echo "Failed to retrieve an HTTP response code. Check your API request."
+            fi
+    
         
