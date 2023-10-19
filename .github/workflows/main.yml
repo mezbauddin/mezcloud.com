@@ -118,4 +118,10 @@ jobs:
                 "weight": 1            # Set the weight value
               }
             ]'
+            
+            if [ "$HTTP_RESPONSE_CODE" -eq 200 ]; then
+            echo "DNS record update successful."
+          else
+            echo "DNS record update failed with HTTP response code: $HTTP_RESPONSE_CODE"
+          fi
         
