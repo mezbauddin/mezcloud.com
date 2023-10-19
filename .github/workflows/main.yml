@@ -8,7 +8,7 @@ on:
 env:
   IMAGE_NAME: mezbauddin.com
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-  #DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   SERVER_HOST: ${{ secrets.SERVER_HOST }}
   SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
   TFE_TOKEN: ${{ secrets.TF_CLOUD_TOKEN }}
@@ -70,7 +70,6 @@ jobs:
           else
             COMPOSE_FILE=docker-compose.staging.yml
           echo "Using Docker Compose file: $COMPOSE_FILE" && \
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} && \
           docker-compose -f $COMPOSE_FILE down || true && \
           docker-compose -f $COMPOSE_FILE pull && \
           docker-compose -f $COMPOSE_FILE up -d
