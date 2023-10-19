@@ -13,6 +13,7 @@ env:
   SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
   TFE_TOKEN: ${{ secrets.TF_CLOUD_TOKEN }}
   SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+  TARGET_DOMAIN: ${{ secrets.TARGET_DOMAIN }}
 
 
 jobs:
@@ -83,28 +84,27 @@ jobs:
         #   DOCKER_CLI_AKSHDJKFJSDAKS: "1"
 
 
-      - name: Deploy Docker Compose
-        run: |
-          chmod 600 infrastructure/ansible/ansible_ssh_key  # Set the appropriate permissions on the SSH key
-          ssh -o StrictHostKeyChecking=no -l ${{ env.SERVER_USERNAME }} -i infrastructure/ansible/ansible_ssh_key ${{ env.SERVER_HOST }} '
-          cd /home/houddinii/mezcloud.com/ && \
-          if [[ "refs/heads/main" == "refs/heads/main" ]]; then
-            COMPOSE_FILE=docker-compose.prod.yml
-          else
-            COMPOSE_FILE=docker-compose.staging.yml
-          fi        
-          echo "Using Docker Compose file: $COMPOSE_FILE" && \
-          echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-          docker-compose -f $COMPOSE_FILE down || true && \
-          docker-compose -f $COMPOSE_FILE pull && \
-          docker-compose -f $COMPOSE_FILE up -d
-          '
-        env:
-          DOCKER_CLI_AKSHDJKFJSDAKS: "1"
+      # - name: Deploy Docker Compose
+      #   run: |
+      #     chmod 600 infrastructure/ansible/ansible_ssh_key  # Set the appropriate permissions on the SSH key
+      #     ssh -o StrictHostKeyChecking=no -l ${{ env.SERVER_USERNAME }} -i infrastructure/ansible/ansible_ssh_key ${{ env.SERVER_HOST }} '
+      #     cd /home/houddinii/mezcloud.com/ && \
+      #     if [[ "refs/heads/main" == "refs/heads/main" ]]; then
+      #       COMPOSE_FILE=docker-compose.prod.yml
+      #     else
+      #       COMPOSE_FILE=docker-compose.staging.yml
+      #     fi        
+      #     echo "Using Docker Compose file: $COMPOSE_FILE" && \
+      #     echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      #     docker-compose -f $COMPOSE_FILE down || true && \
+      #     docker-compose -f $COMPOSE_FILE pull && \
+      #     docker-compose -f $COMPOSE_FILE up -d
+      #     '
+ 
           
       - name: Update DNS Record for Root Domain # https://developer.godaddy.com/doc/endpoint/domains#/v1/recordReplaceType
         run: |
-          curl -X PUT "https://api.godaddy.com/v1/domains/mezcloud.com/records/A/@?ttl=600" \
+          curl -X PUT "https://api.godaddy.com/v1/domains/${{ secrets.TARGET_DOMAIN }}/records/A/@?ttl=600" \
             -H "Authorization: sso-key ${{ secrets.GODADDY_API_KEY }}:${{ secrets.GODADDY_API_SECRET }}" \
             -H "Content-Type: application/json" \
             -d '[
