@@ -62,8 +62,9 @@ jobs:
 
       - name: Deploy Docker Compose
         run: |
+          chmod 600 infrastructure/ansible/ansible_ssh_key  # Set 600 permissions on the SSH key
           ssh -o StrictHostKeyChecking=no -l ${{ env.SERVER_USERNAME }} -i infrastructure/ansible/ansible_ssh_key ${{ env.SERVER_HOST }} '
-          cd /home/houddinii/Documents/mezcloud.com/ && \
+          cd /home/houddinii/mezcloud.com/ && \
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
             COMPOSE_FILE=docker-compose.prod.yml
           else
