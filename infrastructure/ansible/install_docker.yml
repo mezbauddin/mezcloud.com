@@ -54,7 +54,7 @@
       debug:
         var: git_clone_result
 
-
+#############################################
 # # Login to Docker Hub
 #     - name: Docker Hub login
 #       community.docker.docker_login:
