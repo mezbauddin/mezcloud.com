@@ -62,7 +62,7 @@ jobs:
 
       - name: Deploy Docker Compose
         run: |
-          chmod 600 infrastructure/ansible/ansible_ssh_key  # Set 600 permissions on the SSH key
+          chmod 600 infrastructure/ansible/ansible_ssh_key  # Set the appropriate permissions on the SSH key
           ssh -o StrictHostKeyChecking=no -l ${{ env.SERVER_USERNAME }} -i infrastructure/ansible/ansible_ssh_key ${{ env.SERVER_HOST }} '
           cd /home/houddinii/mezcloud.com/ && \
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
@@ -71,7 +71,7 @@ jobs:
             COMPOSE_FILE=docker-compose.staging.yml
           fi && \
           echo "Using Docker Compose file: $COMPOSE_FILE" && \
-          docker login -u ${{ env.DOCKER_USERNAME }} --password-stdin < ${{ env.DOCKER_PASSWORD_FILE }} && \
+          echo ${{ env.DOCKER_PASSWORD }} | docker login -u ${{ env.DOCKER_USERNAME }} --password-stdin && \
           docker-compose -f $COMPOSE_FILE down || true && \
           docker-compose -f $COMPOSE_FILE pull && \
           docker-compose -f $COMPOSE_FILE up -d
