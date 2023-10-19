@@ -66,10 +66,11 @@ jobs:
 
       - name: Set up SSH Key
         run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan {{ env.SERVER_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan $SERVER_HOST >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
+
 
       - name: SSH into Ubuntu and Run Script
         run: |
