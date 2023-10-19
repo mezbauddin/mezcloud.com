@@ -8,7 +8,7 @@ on:
 env:
   IMAGE_NAME: mezbauddin.com
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  #DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   SERVER_HOST: ${{ secrets.SERVER_HOST }}
   SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
   TFE_TOKEN: ${{ secrets.TF_CLOUD_TOKEN }}
