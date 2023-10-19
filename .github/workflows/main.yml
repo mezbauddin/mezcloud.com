@@ -60,30 +60,17 @@ jobs:
       #     push: true
       #     tags: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
 
-      - name: Set up SSH and Deploy
+      - name: Deploy Docker Compose
         run: |
-          echo "$SSH_PRIVATE_KEY" > ssh_key
-          chmod 600 ssh_key
-
-          # Log in to Docker Hub on the server using docker/login-action
-          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-
-          # Create the ~/.ssh directory if it doesn't exist
-          mkdir -p ~/.ssh
-
-          # Add the server's host key to known_hosts
-          ssh-keyscan -H $SERVER_HOST >> ~/.ssh/known_hosts
-
-          # Continue with the deployment
-          ssh -o StrictHostKeyChecking=yes -i ssh_key $SERVER_USERNAME@$SERVER_HOST '
-            cd /home/houddinii/mezcloud.com && \
-            if [[ "$GITHUB_REF" == "refs/heads/main" ]]; then
-              COMPOSE_FILE=./docker-compose.prod.yml
-            else
-              COMPOSE_FILE=./docker-compose.staging.yml
-            fi && \
-            echo "Using Docker Compose file: $COMPOSE_FILE" && \
-            docker-compose -f $COMPOSE_FILE down || true
-            docker-compose -f $COMPOSE_FILE pull
-            docker-compose -f $COMPOSE_FILE up -d
+          sshpass -p ${{ env.SERVER_PASSWORD }} ssh -o StrictHostKeyChecking=no -l ${{ env.SERVER_USERNAME }} ${{ env.SERVER_HOST }} '
+          cd /home/houddinii/Documents/mezcloud.com/ && \
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            COMPOSE_FILE=docker-compose.prod.yml
+          else
+            COMPOSE_FILE=docker-compose.staging.yml
+          fi && \
+          echo "Using Docker Compose file: $COMPOSE_FILE" && \
+          docker-compose -f $COMPOSE_FILE down || true && \
+          docker-compose -f $COMPOSE_FILE pull && \
+          docker-compose -f $COMPOSE_FILE up -d
           '
