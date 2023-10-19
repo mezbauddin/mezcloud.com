@@ -72,7 +72,7 @@ jobs:
           fi  # Add the missing 'fi' statement to close the 'if' block
         
           echo "Using Docker Compose file: $COMPOSE_FILE" && \
-          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          docker login -u mezbauddin -p dckr_pat_XtdM1bnVIDl6PLPKqawPPcKZO00
           docker-compose -f $COMPOSE_FILE down || true && \
           docker-compose -f $COMPOSE_FILE pull && \
           docker-compose -f $COMPOSE_FILE up -d
