@@ -62,7 +62,7 @@ jobs:
       #     tags: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
 
 
-      - name: Login to Docker Hub
+      - name: Login to Docker Hub & run Docker Compose.
         run: |
           chmod 600 infrastructure/ansible/ansible_ssh_key  # Set the appropriate permissions on the SSH key
           ssh -o StrictHostKeyChecking=no -l ${{ env.SERVER_USERNAME }} -i infrastructure/ansible/ansible_ssh_key ${{ env.SERVER_HOST }}
@@ -78,31 +78,10 @@ jobs:
           echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
           docker-compose -f $COMPOSE_FILE down || true && \
           docker-compose -f $COMPOSE_FILE pull && \
-          docker-compose -f $COMPOSE_FILE up -d
-          
-        # env:
-        #   DOCKER_CLI_AKSHDJKFJSDAKS: "1"
+          docker-compose -f $COMPOSE_FILE up -d        
 
-
-      # - name: Deploy Docker Compose
-      #   run: |
-      #     chmod 600 infrastructure/ansible/ansible_ssh_key  # Set the appropriate permissions on the SSH key
-      #     ssh -o StrictHostKeyChecking=no -l ${{ env.SERVER_USERNAME }} -i infrastructure/ansible/ansible_ssh_key ${{ env.SERVER_HOST }} '
-      #     cd /home/houddinii/mezcloud.com/ && \
-      #     if [[ "refs/heads/main" == "refs/heads/main" ]]; then
-      #       COMPOSE_FILE=docker-compose.prod.yml
-      #     else
-      #       COMPOSE_FILE=docker-compose.staging.yml
-      #     fi        
-      #     echo "Using Docker Compose file: $COMPOSE_FILE" && \
-      #     echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      #     docker-compose -f $COMPOSE_FILE down || true && \
-      #     docker-compose -f $COMPOSE_FILE pull && \
-      #     docker-compose -f $COMPOSE_FILE up -d
-      #     '
- 
           
-      - name: Update DNS Record for Root Domain
+      - name: Update DNS Record for Root of Target Domain
         run: |
           HTTP_RESPONSE_CODE=$(curl -X PUT -s -o /dev/null -w "%{http_code}" "https://api.godaddy.com/v1/domains/${{ secrets.TARGET_DOMAIN }}/records/A/@?ttl=600" \
             -H "Authorization: sso-key ${{ secrets.GODADDY_API_KEY }}:${{ secrets.GODADDY_API_SECRET }}" \
