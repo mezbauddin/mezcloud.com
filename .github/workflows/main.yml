@@ -69,7 +69,7 @@ jobs:
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
           # Continue with the deployment
-          ssh i ssh_key $SERVER_USERNAME@$SERVER_HOST '
+          ssh -i ssh_key $SERVER_USERNAME@$SERVER_HOST '
             cd /home/houddinii/mezcloud.com && \
             if [[ "$GITHUB_REF" == "refs/heads/main" ]]; then
               COMPOSE_FILE=./docker-compose.prod.yml
