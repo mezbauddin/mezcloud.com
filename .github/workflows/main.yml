@@ -62,7 +62,7 @@ jobs:
 
       - name: Deploy Docker Compose
         run: |
-          ssh -o StrictHostKeyChecking=no -l ${{ env.SERVER_USERNAME }} -i infrastructure/ansible/ansible_ssh_key ${{ env.SERVER_HOST } '
+          ssh -o StrictHostKeyChecking=no -l ${{ env.SERVER_USERNAME }} -i infrastructure/ansible/ansible_ssh_key ${{ env.SERVER_HOST }} '
           cd /home/houddinii/Documents/mezcloud.com/ && \
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
             COMPOSE_FILE=docker-compose.prod.yml
