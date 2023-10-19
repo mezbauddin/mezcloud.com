@@ -69,8 +69,7 @@ jobs:
             COMPOSE_FILE=docker-compose.prod.yml
           else
             COMPOSE_FILE=docker-compose.staging.yml
-          fi  # Add the missing 'fi' statement to close the 'if' block
-        
+          fi        
           echo "Using Docker Compose file: $COMPOSE_FILE" && \
           echo "your_password" > password.txt && chmod 600 password.txt ## rm ##
           cat password.txt | docker login -u mezbauddin --password-stdin ## rm ##
