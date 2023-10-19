@@ -69,11 +69,9 @@ jobs:
             COMPOSE_FILE=docker-compose.prod.yml
           else
             COMPOSE_FILE=docker-compose.staging.yml
-          fi && \
           echo "Using Docker Compose file: $COMPOSE_FILE" && \
-          echo "${{ env.DOCKER_PASSWORD }}" > ~/docker_password.txt && \
-          docker login -u ${{ env.DOCKER_USERNAME }} --password-stdin < ~/docker_password.txt && \
-          rm ~/docker_password.txt && \
+          mkdir -p ~/.docker && \
+          echo "{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"$(echo -n "${{ env.DOCKER_USERNAME }}:${{ env.DOCKER_PASSWORD }}" | base64)\"}}}" > ~/.docker/config.json && \
           docker-compose -f $COMPOSE_FILE down || true && \
           docker-compose -f $COMPOSE_FILE pull && \
           docker-compose -f $COMPOSE_FILE up -d
