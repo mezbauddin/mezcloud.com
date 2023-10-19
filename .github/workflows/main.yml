@@ -67,7 +67,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no -l ${{ env.SERVER_USERNAME }} -i infrastructure/ansible/ansible_ssh_key ${{ env.SERVER_HOST }}
           echo "$DOCKER_PASSWORD" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin && \
           # docker-compose -f docker-compose.prod.yml up -d
-          
+
           if [[ "refs/heads/main" == "refs/heads/main" ]]; then
             COMPOSE_FILE=docker-compose.prod.yml
           else
@@ -80,8 +80,8 @@ jobs:
           docker-compose -f $COMPOSE_FILE up -d
           '
           
-        env:
-          DOCKER_CLI_AKSHDJKFJSDAKS: "1"
+        # env:
+        #   DOCKER_CLI_AKSHDJKFJSDAKS: "1"
 
 
       - name: Deploy Docker Compose
