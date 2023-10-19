@@ -60,6 +60,14 @@ jobs:
       #     push: true
       #     tags: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
 
+
+      - name: Login to Docker Hub
+        run: |
+          set -x
+          docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+        env:
+          DOCKER_CLI_AKSHDJKFJSDAKS: "1"
+
       - name: Deploy Docker Compose
         run: |
           chmod 600 infrastructure/ansible/ansible_ssh_key  # Set the appropriate permissions on the SSH key
