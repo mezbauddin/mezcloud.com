@@ -61,6 +61,9 @@ jobs:
       #     tags: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
 
 
+      - name: Create SSH Directory
+        run: mkdir -p ~/.ssh
+
       - name: Set up SSH Key
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
