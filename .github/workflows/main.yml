@@ -67,7 +67,7 @@ jobs:
           cd /home/houddinii/mezcloud.com/ && \
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
             COMPOSE_FILE=docker-compose.prod.yml
-          else
+          fi
             COMPOSE_FILE=docker-compose.staging.yml
           echo "Using Docker Compose file: $COMPOSE_FILE" && \
           docker-compose -f $COMPOSE_FILE down || true && \
