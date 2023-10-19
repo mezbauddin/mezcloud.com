@@ -68,6 +68,9 @@ jobs:
           # Log in to Docker Hub on the server using docker/login-action
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
+          # Create the ~/.ssh directory if it doesn't exist
+          mkdir -p ~/.ssh
+
           # Add the server's host key to known_hosts
           ssh-keyscan -H $SERVER_HOST >> ~/.ssh/known_hosts
 
@@ -84,8 +87,3 @@ jobs:
             docker-compose -f $COMPOSE_FILE pull
             docker-compose -f $COMPOSE_FILE up -d
           '
-
-
-
-
-
