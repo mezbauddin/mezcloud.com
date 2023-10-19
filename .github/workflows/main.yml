@@ -63,6 +63,8 @@ jobs:
 
       - name: Login to Docker Hub
         run: |
+          chmod 600 infrastructure/ansible/ansible_ssh_key  # Set the appropriate permissions on the SSH key
+          ssh -o StrictHostKeyChecking=no -l ${{ env.SERVER_USERNAME }} -i infrastructure/ansible/ansible_ssh_key ${{ env.SERVER_HOST }}
           echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         env:
           DOCKER_CLI_AKSHDJKFJSDAKS: "1"
