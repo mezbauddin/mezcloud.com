@@ -116,4 +116,4 @@ Installed dJango, waigtail, but currently only using it to load static pages, no
 - Need to update the project structur and add .env file to the project to manage it efficiently, Installed - poetry add python-decouple it will help to manage the .env file will configure it later.
 
 
-# ~
+# 
