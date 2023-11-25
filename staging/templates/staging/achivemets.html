@@ -1,0 +1,33 @@
+{% extends 'staging/base.html' %}
+<!-- loading from the static folder? -->
+{% load static %}	
+{% block content %}
+<div class="div">
+  <img
+    loading="lazy"
+    srcset="https://cdn.builder.io/api/v1/image/assets/TEMP/2f969fb2-0cdb-4f10-a578-249e4130f742?apiKey=abac439ac3244545890e50f502c639c2&width=100 100w, https://cdn.builder.io/api/v1/image/assets/TEMP/2f969fb2-0cdb-4f10-a578-249e4130f742?apiKey=abac439ac3244545890e50f502c639c2&width=200 200w, https://cdn.builder.io/api/v1/image/assets/TEMP/2f969fb2-0cdb-4f10-a578-249e4130f742?apiKey=abac439ac3244545890e50f502c639c2&width=400 400w, https://cdn.builder.io/api/v1/image/assets/TEMP/2f969fb2-0cdb-4f10-a578-249e4130f742?apiKey=abac439ac3244545890e50f502c639c2&width=800 800w, https://cdn.builder.io/api/v1/image/assets/TEMP/2f969fb2-0cdb-4f10-a578-249e4130f742?apiKey=abac439ac3244545890e50f502c639c2&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/TEMP/2f969fb2-0cdb-4f10-a578-249e4130f742?apiKey=abac439ac3244545890e50f502c639c2&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/TEMP/2f969fb2-0cdb-4f10-a578-249e4130f742?apiKey=abac439ac3244545890e50f502c639c2&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/TEMP/2f969fb2-0cdb-4f10-a578-249e4130f742?apiKey=abac439ac3244545890e50f502c639c2&"
+    class="img"
+  />
+</div>
+<style>
+  .div {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+  }
+  .img {
+    aspect-ratio: 1.7;
+    object-fit: contain;
+    object-position: center;
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 81px;
+  }
+  @media (max-width: 991px) {
+    .img {
+      max-width: 100%;
+      margin-bottom: 40px;
+    }
+  }
+</style>
+{% endblock %}
